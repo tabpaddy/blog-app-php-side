@@ -1,7 +1,12 @@
 <?php
 include('./partials/header.php');
-?>
 
+// fetch featured post from database
+$featured_query = "SELECT  * FROM posts WHERE is_featured=1";
+$featured_result = mysqli_query($con, $featured_query);
+$featured = mysqli_fetch_array($featured_result);
+?>
+<?php if($featured): ?>
     <section class="featured">
         <div class="container featured__container">
             <div class="post__thumbnail">
@@ -25,7 +30,7 @@ include('./partials/header.php');
             </div>
         </div>
     </section>
-
+<? endif ?>
     <!-- end of feautred post -->
 
     <section class="post">
