@@ -32,6 +32,14 @@ $result = mysqli_query($con, $query);
                     ?>
             </p>
         </div>
+    <?php elseif(isset($_SESSION['delete-post-success'])): ?>
+        <div class="alert__message success container">
+            <p>
+                <?= $_SESSION['delete-post-success'];
+                    unset($_SESSION['delete-post-success'])
+                    ?>
+            </p>
+        </div>
         <?php endif ?>
     <div class="container dashboard__container">
         <button id="show__sidebar-btn" class="sidebar__toggle"><i class="uil uil-angle-right-b"></i></button>
@@ -62,7 +70,7 @@ $result = mysqli_query($con, $query);
         </aside>
 
         <main>
-            <h2>Manage Users</h2>
+            <h2>Manage Posts</h2>
             <?php if(mysqli_num_rows($result) > 0): ?>
             <table>
                 <thead>
