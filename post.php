@@ -1,33 +1,41 @@
 <?php
 include('./partials/header.php');
+
+// fetch post dta from database if is is set
+if(isset($_GET['id'])){
+    $id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
+
+    $query = "SELECT * FROM posts WHERE id=$id";
+    $result = mysqli_query($con, $query);
+    $post = mysqli_fetch_array($result);
+
+    $author_id = $post['author_id'];
+    $author_query = "SELECT * FROM users WHERE user_id=$author_id";
+    $author_result = mysqli_query($con, $author_query);
+    $author = mysqli_fetch_array($author_result);
+}else{
+    header('location: ' . ROOT_URL . 'index.php');
+    die();
+}
 ?>
 
     <section class="singlepost">
         <div class="container singlepost__container">
-            <h2>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</h2>
+            <h2><?=$post['title']?></h2>
             <div class="post__author">
                 <div class="post__author-avatar">
-                    <img src="./images/avatar2.jpg" alt="ha">
+                    <img src="<?=ROOT_URL?>/image/<?= $author['avatar'] ?>" alt="ha">
                 </div>
                 <div class="post__author-info">
-                    <h5>By: Mary Dan</h5>
-                    <small>june 10, 2022 - 07:23</small>
+                    <h5>By: <?= "{$author['firstname']} {$author['lastname']}" ?></h5>
+                    <small><?= date("M, d, Y - H:i", strtotime($post['date_time'])) ?></small>
                 </div>
             </div>
             <div class="singlepost__thumbnail">
-                <img src="./images/blog14.jpg" alt="hssu">
+                <img src="<?=ROOT_URL?>image/<?= $post['thumbnail'] ?>" alt="hssu">
             </div>
             <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum maiores consectetur doloribus. Modi debitis facilis eveniet, dolor, dolorum quia pariatur architecto libero nostrum, animi ratione dicta sapiente ipsum officia! Sapiente voluptas eveniet, iusto veritatis numquam non exercitationem ex odio nihil?
-            </p>
-            <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum maiores consectetur doloribus. Modi debitis facilis eveniet, dolor, dolorum quia pariatur architecto libero nostrum, animi ratione dicta sapiente ipsum officia! Sapiente voluptas eveniet, iusto veritatis numquam non exercitationem ex odio nihil?
-            </p>
-            <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum maiores consectetur doloribus. Modi debitis facilis eveniet, dolor, dolorum quia pariatur architecto libero nostrum, animi ratione dicta sapiente ipsum officia! Sapiente voluptas eveniet, iusto veritatis numquam non exercitationem ex odio nihil?
-            </p>
-            <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum maiores consectetur doloribus. Modi debitis facilis eveniet, dolor, dolorum quia pariatur architecto libero nostrum, animi ratione dicta sapiente ipsum officia! Sapiente voluptas eveniet, iusto veritatis numquam non exercitationem ex odio nihil?
+                <?= $post['body'] ?>
             </p>
         </div>
     </section>
